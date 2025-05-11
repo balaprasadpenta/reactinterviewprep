@@ -4,6 +4,8 @@ A comprehensive platform for learning React concepts through interactive example
 
 ## 🚀 Getting Started
 
+### Option 1: Local Development
+
 1. Clone the repository
 2. Install dependencies:
    ```bash
@@ -14,6 +16,50 @@ A comprehensive platform for learning React concepts through interactive example
    npm run dev
    ```
 4. Open [http://localhost:3000](http://localhost:3000)
+
+### Option 2: Docker Development
+
+1. Ensure Docker Desktop is installed and running
+2. Build and run using Docker Compose:
+   ```bash
+   docker-compose up
+   ```
+3. Open [http://localhost:3000](http://localhost:3000)
+
+### Option 3: Docker Production Build
+
+1. Build the Docker image:
+   ```bash
+   docker build -t nextjs-learning .
+   ```
+2. Run the container:
+   ```bash
+   docker run -p 3000:3000 nextjs-learning
+   ```
+
+## 🐳 Docker Configuration
+
+The project includes Docker support for both development and production environments:
+
+- `Dockerfile`: Multi-stage build for production
+- `docker-compose.yml`: Development environment with hot-reloading
+- `.dockerignore`: Optimized build context
+
+### Development with Docker
+
+The development environment includes:
+- Hot-reloading
+- Volume mounting for live code updates
+- Node modules isolation
+- Development-specific configurations
+
+### Production with Docker
+
+The production build includes:
+- Multi-stage builds for smaller image size
+- Production optimizations
+- Security best practices
+- Standalone output
 
 ## 🎯 Available Topics
 
