@@ -18,5 +18,9 @@ export default function SecurePreview({ code }: SecurePreviewProps) {
     return <div className="w-full h-[400px] border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-800" />;
   }
 
-  return <LivePreview code={code} />;
+  return (
+    <div className="relative w-full h-[400px]">
+      <LivePreview code={code} />
+    </div>
+  );
 } 
