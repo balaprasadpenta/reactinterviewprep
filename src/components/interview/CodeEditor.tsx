@@ -10,11 +10,8 @@ interface CodeEditorProps {
 }
 
 export default function CodeEditor({ initialCode, language = 'javascript', onCodeChange }: CodeEditorProps) {
-  const [code, setCode] = useState(initialCode);
-
   const handleEditorChange = (value: string | undefined) => {
     if (value !== undefined) {
-      setCode(value);
       onCodeChange?.(value);
     }
   };
