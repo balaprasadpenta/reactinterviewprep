@@ -1,7 +1,6 @@
 'use client';
 
 import { Editor } from '@monaco-editor/react';
-import { useState } from 'react';
 
 interface CodeEditorProps {
   initialCode: string;
