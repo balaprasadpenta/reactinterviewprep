@@ -11,33 +11,25 @@ export default function LivePreview({ code }: LivePreviewProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
-
-    // Create a blob URL for the HTML content
-    const htmlContent = previewTemplate(code);
-    const blob = new Blob([htmlContent], { type: 'text/html' });
-    const blobUrl = URL.createObjectURL(blob);
-
-    // Set the iframe src to the blob URL
-    iframe.src = blobUrl;
-
-    // Cleanup
-    return () => {
-      URL.revokeObjectURL(blobUrl);
-    };
+    if (iframeRef.current) {
+      const htmlContent = previewTemplate(code);
+      const iframe = iframeRef.current;
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      
+      if (iframeDoc) {
+        iframeDoc.open();
+        iframeDoc.write(htmlContent);
+        iframeDoc.close();
+      }
+    }
   }, [code]);
 
   return (
-    <div className="h-[400px] border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-      <iframe
-        ref={iframeRef}
-        title="preview"
-        className="w-full h-full"
-        sandbox="allow-scripts"
-        referrerPolicy="no-referrer"
-        loading="lazy"
-      />
-    </div>
+    <iframe
+      ref={iframeRef}
+      className="w-full h-[400px] border border-gray-200 dark:border-gray-700 rounded-lg"
+      sandbox="allow-scripts"
+      title="Code Preview"
+    />
   );
 } 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Question } from '@/types/interview';
 import Sidebar from '@/components/interview/Sidebar';
 import QuestionContent from '@/components/interview/QuestionContent';
 
@@ -1618,17 +1619,29 @@ ReactDOM.render(<ConceptVisualization />, document.getElementById('root'));`,
     id: 13,
     question: "Explain useKeyPress, useDebounce, useThrottle, useMediaQuery, useLocalStorage (utility hooks)",
     visualization: `function UtilityDemo() {
-  // Simulate key press, debounce, throttle, media query, and local storage
   const [key, setKey] = React.useState('');
   const [debounced, setDebounced] = React.useState('');
   const [throttled, setThrottled] = React.useState('');
-  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 600);
-  const [storage, setStorage] = React.useState(localStorage.getItem('demo') || '');
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [storage, setStorage] = React.useState('');
 
   React.useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 600);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    // Only run on client side
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth < 600);
+      setStorage(localStorage.getItem('demo') || '');
+
+      const handleResize = () => setIsMobile(window.innerWidth < 600);
+      window.addEventListener('resize', handleResize);
+      
+      const handleKeyDown = (e) => setKey(e.key);
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
   }, []);
 
   React.useEffect(() => {
@@ -1642,14 +1655,10 @@ ReactDOM.render(<ConceptVisualization />, document.getElementById('root'));`,
   }, [key]);
 
   React.useEffect(() => {
-    localStorage.setItem('demo', storage);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('demo', storage);
+    }
   }, [storage]);
-
-  React.useEffect(() => {
-    const handleKeyDown = (e) => setKey(e.key);
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
@@ -1748,14 +1757,18 @@ ReactDOM.render(<ConceptVisualization />, document.getElementById('root'));`,
 ];
 
 export default function ReactHooksInterview() {
-  const [selectedQuestion, setSelectedQuestion] = useState(hookQuestions[0]);
+  const [selectedQuestion, setSelectedQuestion] = useState<Question>(hookQuestions[0]);
+
+  const handleQuestionSelect = (question: Question) => {
+    setSelectedQuestion(question);
+  };
 
   return (
     <div className="flex h-screen bg-white dark:bg-gray-900">
       <Sidebar 
         questions={hookQuestions}
         selectedQuestion={selectedQuestion}
-        onSelectQuestion={setSelectedQuestion}
+        onSelectQuestion={handleQuestionSelect}
       />
       <QuestionContent question={selectedQuestion} />
     </div>

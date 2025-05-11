@@ -15,11 +15,7 @@ export default function SecurePreview({ code }: SecurePreviewProps) {
   }, []);
 
   if (!isClient) {
-    return (
-      <div className="h-[400px] flex items-center justify-center bg-gray-100 dark:bg-gray-900 rounded-lg">
-        <div className="text-gray-500 dark:text-gray-400">Loading preview...</div>
-      </div>
-    );
+    return <div className="w-full h-[400px] border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-800" />;
   }
 
   return <LivePreview code={code} />;

@@ -7,11 +7,13 @@ const nextConfig = {
     // number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 2,
   },
-  // Reduce memory usage
+  // Optimize CSS
+  optimizeFonts: true,
+  // Disable experimental features that might cause issues
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false, // Disable this as it's causing issues
   },
-  // Enable standalone output for Docker
+  // Enable standalone output for better deployment
   output: 'standalone',
 }
 

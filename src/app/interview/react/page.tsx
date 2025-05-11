@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { Question } from '@/types/interview';
 import Sidebar from '@/components/interview/Sidebar';
 import QuestionContent from '@/components/interview/QuestionContent';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import ThemeToggle from '@/components/ThemeToggle';
 
 // Sample React interview questions data
 const interviewQuestions = [
@@ -455,7 +456,11 @@ function Example() {
 ];
 
 export default function ReactInterview() {
-  const [selectedQuestion, setSelectedQuestion] = useState(interviewQuestions[0]);
+  const [selectedQuestion, setSelectedQuestion] = useState<Question>(interviewQuestions[0]);
+
+  const handleQuestionSelect = (question: Question) => {
+    setSelectedQuestion(question);
+  };
 
   return (
     <div className="flex h-screen bg-white dark:bg-gray-900">
@@ -463,7 +468,7 @@ export default function ReactInterview() {
       <Sidebar 
         questions={interviewQuestions}
         selectedQuestion={selectedQuestion}
-        onSelectQuestion={setSelectedQuestion}
+        onSelectQuestion={handleQuestionSelect}
       />
       <QuestionContent question={selectedQuestion} />
     </div>
