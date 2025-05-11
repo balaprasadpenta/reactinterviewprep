@@ -11,6 +11,14 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
   },
+  // Enable standalone output for Docker
+  output: 'standalone',
 }
+
+// # Build the Docker image
+// docker build -t nextjs-learning .
+
+// # Run the container
+// docker run -p 3000:3000 nextjs-learning
 
 export default nextConfig
